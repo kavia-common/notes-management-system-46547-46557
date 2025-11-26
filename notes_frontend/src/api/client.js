@@ -1,9 +1,13 @@
 //
+//
 // PUBLIC_INTERFACE
 /**
  * Lightweight API client for the Notes backend.
  * Uses REACT_APP_API_BASE to configure base URL (default http://localhost:3001).
  * Exposes helper methods for notes CRUD along with generic request().
+ *
+ * To point to a different backend, set REACT_APP_API_BASE in .env before starting:
+ *   REACT_APP_API_BASE=https://api.example.com
  */
 const API_BASE =
   (typeof process !== "undefined" &&

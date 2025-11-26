@@ -113,7 +113,7 @@ function App() {
 
         <main className="main">
           <div className="main-toolbar">
-            <div className="api-indicator" title={`API: ${getApiBase()}`}>
+            <div className="api-indicator" title={`API base URL used by the app: ${getApiBase()}`}>
               API: {getApiBase()}
             </div>
             {error ? <div className="error-banner">Error: {String(error.message || error)}</div> : null}
