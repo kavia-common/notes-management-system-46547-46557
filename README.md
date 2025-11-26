@@ -10,7 +10,7 @@ Run locally:
 1) Backend (FastAPI)
 - Start the backend on port 3001 (see backend README in its workspace).
 - Confirm API is reachable at http://localhost:3001 and docs at /docs.
-- The backend persists data in a SQLite database file created on first run.
+- The backend persists data in a SQLite database file created on first run (e.g., notes.db in the backend working directory).
 
 2) Frontend (React)
 - cd notes_frontend
@@ -18,10 +18,15 @@ Run locally:
 - npm install
 - npm start
 - Open http://localhost:3000
+- Verify the top toolbar shows the correct API base (e.g., API: http://localhost:3001).
 
 CORS/Base URL
 - Frontend uses REACT_APP_API_BASE to call the backend. Ensure CORS on the backend allows http://localhost:3000 during development.
-- For deployments, set REACT_APP_API_BASE to your backend URL.
+  Typical FastAPI CORS settings:
+  - allow_origins=["http://localhost:3000"]
+  - allow_methods=["*"], allow_headers=["*"]
+- For deployments, set REACT_APP_API_BASE to your backend URL (https recommended).
 
 Persistence
 - Notes are stored by the backend in SQLite. The DB file is created automatically (e.g., notes.db).
+- Quick check: create notes in UI, restart backend, refresh UI — notes should still be present.

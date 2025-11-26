@@ -7,6 +7,7 @@ A modern, lightweight UI for managing notes using the Ocean Professional theme.
 1) Configure environment
 - Copy `.env.example` to `.env`. If your backend runs on a different host/port, update:
   - `REACT_APP_API_BASE` (defaults to `http://localhost:3001` if not set)
+- The API base is normalized (trailing slash removed) and joined with paths safely.
 
 2) Install and run
 - `npm install`
@@ -20,8 +21,7 @@ You should see the API base shown in the top toolbar (e.g., `API: http://localho
 - REACT_APP_API_BASE
   - Base URL for the FastAPI backend. If not set, the app uses `http://localhost:3001` by default.
   - Example: `REACT_APP_API_BASE=https://your-backend.example.com`
-
-Other optional envs (not required for basic usage) are listed in `.env.example`.
+- See `.env.example` for optional variables used by some platforms.
 
 ## CORS and base URL notes
 
@@ -40,6 +40,11 @@ Other optional envs (not required for basic usage) are listed in `.env.example`.
   - Start the API on port 3001
   - Verify the docs at http://localhost:3001/docs
 - Persistence: all created notes are stored in the SQLite database file, so data remains across backend restarts.
+
+### Verify persistence quickly
+- Create a few notes in the UI
+- Restart the backend service
+- Refresh the frontend; previously created notes should still appear (confirm `notes.db` exists in backend working directory)
 
 ## Features
 

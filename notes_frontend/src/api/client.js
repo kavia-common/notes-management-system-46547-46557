@@ -1,5 +1,15 @@
 //
 //
+//
+/**
+ * Normalize base URL: remove trailing slash for predictable joining.
+ * @param {string} base
+ */
+function normalizeBase(base) {
+  if (!base) return "";
+  return base.endsWith("/") ? base.slice(0, -1) : base;
+}
+
 // PUBLIC_INTERFACE
 /**
  * Lightweight API client for the Notes backend.
@@ -9,11 +19,13 @@
  * To point to a different backend, set REACT_APP_API_BASE in .env before starting:
  *   REACT_APP_API_BASE=https://api.example.com
  */
-const API_BASE =
+const RAW_API_BASE =
   (typeof process !== "undefined" &&
     process.env &&
     process.env.REACT_APP_API_BASE) ||
   "http://localhost:3001";
+
+const API_BASE = normalizeBase(RAW_API_BASE);
 
 /**
  * Build request options with JSON headers and optional body.
@@ -67,12 +79,22 @@ async function handleResponse(res) {
 }
 
 /**
+ * Join base and path safely (avoid accidental double slashes).
+ * @param {string} base
+ * @param {string} path
+ */
+function joinUrl(base, path) {
+  if (!path) return base;
+  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+/**
  * Execute a request relative to the API base.
  * @param {string} path
  * @param {RequestInit} options
  */
 async function request(path, options = {}) {
-  const url = `${API_BASE}${path}`;
+  const url = joinUrl(API_BASE, path);
   const res = await fetch(url, options);
   return handleResponse(res);
 }
@@ -108,7 +130,7 @@ export const notesApi = {
 
 // PUBLIC_INTERFACE
 export function getApiBase() {
-  /** Returns the configured API base URL. */
+  /** Returns the configured API base URL (normalized without trailing slash). */
   return API_BASE;
 }
 
